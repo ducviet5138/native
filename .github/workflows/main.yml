@@ -46,14 +46,12 @@ jobs:
         cat << EOF >> ./android/gradle.properties
         ${{ secrets.GRADLE_PROPERTIES }}
         EOF
-
-    - name: Write out data of gradle-wrapper.properties
-      run: cat ${{ env.CURRENT_DIR }}/android/gradle/wrapper/gradle-wrapper.properties
     
     - name: Modify gradle-wrapper.properties
       run: |
-        sed -i '' 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.8-all.zip|'
-        ${{ env.CURRENT_DIR }}/android/gradle/wrapper/gradle-wrapper.properties
+        cat << EOF > ./android/gradle/wrapper/gradle-wrapper.properties
+        ${{ secrets.GRADLE_WRAPPER_PROPERTIES }}
+        EOF
 
     - name: Generate AAB release
       run: pnpm react-native build-android --mode=release
