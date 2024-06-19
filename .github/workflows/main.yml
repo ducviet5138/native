@@ -37,8 +37,8 @@ jobs:
     - name: Get current directory and assign to CURRENT_DIR
       run: echo "CURRENT_DIR=$PWD" >> $GITHUB_ENV
 
-    - name: Move signed key to android folder
-      run: mv ./my-upload-key.keystore ./android/app/my-upload-key.keystore
+    - name: Move prepared file to its folder
+      run: mv ./android-overrides/* ./android/
     
     # Ref: https://github.com/orgs/community/discussions/24928
     - name: Modify gradle.properties
@@ -47,17 +47,5 @@ jobs:
         ${{ secrets.GRADLE_PROPERTIES }}
         EOF
     
-    - name: Modify gradle-wrapper.properties
-      run: |
-        cat << EOF > ./android/gradle/wrapper/gradle-wrapper.properties
-        ${{ secrets.GRADLE_WRAPPER_PROPERTIES }}
-        EOF
-
-    - name: Modify build.gradle
-      run: |
-        cat << EOF > ./android/app/build.gradle
-        ${{ secrets.BUILD_GRADLE }}
-        EOF
-
     - name: Generate AAB release
       run: pnpm react-native build-android --mode=release
