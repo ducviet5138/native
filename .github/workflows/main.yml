@@ -33,6 +33,12 @@ jobs:
     - name: Generate 'android' folder
       run: pnpm expo run:android
       continue-on-error: true
+
+    - name: Get current directory and assign to CURRENT_DIR
+      run: echo "CURRENT_DIR=$PWD" >> $GITHUB_ENV
+
+    - name: Move signed key to android folder
+      run: mv ./my-upload-key.keystore ./android/app/my-upload-key.keystore
     
     # Ref: https://github.com/orgs/community/discussions/24928
     - name: Modify gradle.properties
@@ -40,6 +46,11 @@ jobs:
         cat << EOF >> ./android/gradle.properties
         ${{ secrets.GRADLE_PROPERTIES }}
         EOF
+    
+    - name: Modify gradle-wrapper.properties
+      run: |
+        sed -i '' '3s/.*/distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip/' \
+        ./android/gradle/wrapper/gradle-wrapper.properties
 
     - name: Generate AAB release
       run: pnpm react-native build-android --mode=release
