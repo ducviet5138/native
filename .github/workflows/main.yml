@@ -24,5 +24,8 @@ jobs:
       with: 
         version: 'latest'
 
+    - name: Install dependencies without updating lockfile
+      run: pnpm i --frozen-lockfile
+
     - name: Generate 'android' folder
       run: pnpm expo run:android
