@@ -48,7 +48,7 @@ jobs:
       run: pnpm react-native build-android --mode=release
 
     - name: Build APK from AAB
-      run: ./android/gradlew bundleRelease
+      run: cd android && ./gradlew bundleRelease
 
     - name: Run ls to check APK
       run: cd ./android/app/build/outputs/apk && ls
