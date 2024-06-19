@@ -39,8 +39,12 @@ jobs:
         sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
         "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
 
+    - name: Cat gradle-wrapper.properties
+      run: cat ./android/gradle/wrapper/gradle-wrapper.properties
+
     - name: Build APK
-      run: cd android && ./gradlew assembleRelease & cd ..
+      run: ./gradlew assembleRelease
+      working-directory: android
 
     - name: Print folder tree
       run: cd ./android/app/build && find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
