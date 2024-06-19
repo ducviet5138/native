@@ -38,7 +38,7 @@ jobs:
       run: echo "CURRENT_DIR=$PWD" >> $GITHUB_ENV
 
     - name: Copy prepared file to its folder
-      run: cp -a ./android-overrides/* ./android/
+      run: cp -a ./android-override/* ./android/
     
     # Ref: https://github.com/orgs/community/discussions/24928
     - name: Append gradle.properties
