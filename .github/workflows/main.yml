@@ -39,12 +39,18 @@ jobs:
         sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
         "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
 
-    - name: Cat gradle-wrapper.properties
-      run: cat ./android/gradle/wrapper/gradle-wrapper.properties
-
     - name: Build APK
       run: ./gradlew assembleRelease
       working-directory: android
 
-    - name: Print folder tree
-      run: cd ./android/app/build && find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: android/app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+          # override default build-tools version (33.0.0) -- optional
+          BUILD_TOOLS_VERSION: "34.0.0"
