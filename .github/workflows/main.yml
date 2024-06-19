@@ -34,9 +34,6 @@ jobs:
       run: pnpm expo run:android
       continue-on-error: true
 
-    - name: Get current directory and assign to CURRENT_DIR
-      run: echo "CURRENT_DIR=$PWD" >> $GITHUB_ENV
-
     - name: Copy prepared file to its folder
       run: cp -a ./android-override/* ./android/
     
