@@ -48,7 +48,7 @@ jobs:
       run: pnpm react-native build-android --mode=release
 
     - name: Build APK from AAB
-      run: cd android && ./gradlew bundleRelease
+      run: cd android && ./gradlew bundleRelease & cd ..
 
-    - name: Run ls to check APK
-      run: cd ./app/build/outputs/apk && ls
+    - name: Print folder tree
+      run: find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
