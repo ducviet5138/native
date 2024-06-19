@@ -41,7 +41,7 @@ jobs:
       run: mv ./android-overrides/* ./android/
     
     # Ref: https://github.com/orgs/community/discussions/24928
-    - name: Modify gradle.properties
+    - name: Append gradle.properties
       run: |
         cat << EOF >> ./android/gradle.properties
         ${{ secrets.GRADLE_PROPERTIES }}
