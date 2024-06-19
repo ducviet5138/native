@@ -53,5 +53,11 @@ jobs:
         ${{ secrets.GRADLE_WRAPPER_PROPERTIES }}
         EOF
 
+    - name: Modify build.gradle
+      run: |
+        cat << EOF > ./android/app/build.gradle
+        ${{ secrets.BUILD_GRADLE }}
+        EOF
+
     - name: Generate AAB release
       run: pnpm react-native build-android --mode=release
