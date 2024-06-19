@@ -33,3 +33,6 @@ jobs:
     - name: Generate 'android' folder
       run: pnpm expo run:android
       continue-on-error: true
+
+    - name: Generate AAB release
+      run: pnpm react-native build-android --mode=release
