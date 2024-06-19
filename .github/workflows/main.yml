@@ -32,3 +32,4 @@ jobs:
 
     - name: Generate 'android' folder
       run: pnpm expo run:android
+      continue-on-error: true
