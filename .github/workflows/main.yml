@@ -30,17 +30,17 @@ jobs:
     - name: Install dependencies without updating lockfile
       run: pnpm i --frozen-lockfile
 
-    - name: Generate 'android' folder
-      run: pnpm expo run:android
-      continue-on-error: true
-
   build:
     runs-on: ubuntu-latest
     needs: dependencies
     steps:
     - name: Access workspace 
       uses: actions/checkout@v4
-      
+
+    - name: Generate 'android' folder
+      run: pnpm expo run:android
+      continue-on-error: true
+
     - name: Copy prepared file to its folder
       run: cp -a ./android-override/* ./android/
     
