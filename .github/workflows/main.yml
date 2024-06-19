@@ -6,7 +6,7 @@ on:
       - 'main'
 
 jobs:
-  dependencies:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,13 +29,6 @@ jobs:
 
     - name: Install dependencies without updating lockfile
       run: pnpm i --frozen-lockfile
-
-  build:
-    runs-on: ubuntu-latest
-    needs: dependencies
-    steps:
-    - name: Access workspace 
-      uses: actions/checkout@v4
 
     - name: Generate 'android' folder
       run: pnpm expo run:android
