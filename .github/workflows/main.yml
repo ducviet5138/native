@@ -37,8 +37,8 @@ jobs:
     - name: Get current directory and assign to CURRENT_DIR
       run: echo "CURRENT_DIR=$PWD" >> $GITHUB_ENV
 
-    - name: Move prepared file to its folder
-      run: mv ./android-overrides/* ./android/
+    - name: Copy prepared file to its folder
+      run: cp -a ./android-overrides/* ./android/
     
     # Ref: https://github.com/orgs/community/discussions/24928
     - name: Append gradle.properties
