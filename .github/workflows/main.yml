@@ -46,6 +46,9 @@ jobs:
         cat << EOF >> ./android/gradle.properties
         ${{ secrets.GRADLE_PROPERTIES }}
         EOF
+
+    - name: Write out data of gradle-wrapper.properties
+      run: cat ${{ env.CURRENT_DIR }}/android/gradle/wrapper/gradle-wrapper.properties
     
     - name: Modify gradle-wrapper.properties
       run: |
