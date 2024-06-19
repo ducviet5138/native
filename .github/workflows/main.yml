@@ -49,7 +49,7 @@ jobs:
     
     - name: Modify gradle-wrapper.properties
       run: |
-        sed -i '' '3s/.*/distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip/' \
+        sed -i '' 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
         ./android/gradle/wrapper/gradle-wrapper.properties
 
     - name: Generate AAB release
