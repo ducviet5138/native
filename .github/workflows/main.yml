@@ -34,15 +34,10 @@ jobs:
       run: pnpm expo run:android
       continue-on-error: true
 
-    - name: Copy prepared file to its folder
-      run: cp -a ./android-override/* ./android/
-    
-    # Ref: https://github.com/orgs/community/discussions/24928
-    - name: Append gradle.properties
+    - name: Set Gradle version to 8.8
       run: |
-        cat << EOF >> ./android/gradle.properties
-        ${{ secrets.GRADLE_PROPERTIES }}
-        EOF
+        sed -i '' 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
+        $PWD/android/gradle/wrapper/gradle-wrapper.properties
     
     - name: Generate AAB release
       run: pnpm react-native build-android --mode=release
@@ -51,4 +46,4 @@ jobs:
       run: cd android && ./gradlew assembleRelease & cd ..
 
     - name: Print folder tree
-      run: find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+      run: cd ./android/app/build && find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
