@@ -58,35 +58,11 @@ jobs:
           # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
 
-    # Print 1
-    - name: Print 1
-      run: git rev-list --tags --skip=1 --max-count=1
-
-    # Print 2
-    - name: Print 2
-      run: git rev-list --tags --max-count=1
-    
-    # Get lastest commit in previous tag
-    - name: Get lastest commit in previous tag
-      id: start_commit
-      run: echo "::set-output name=commit::$(git rev-list --tags --skip=1 --max-count=1)"
-
-    # Get lastest commit in current tag
-    - name: Get lastest commit in current tag
-      id: end_commit
-      run: echo "::set-output name=commit::$(git rev-list --tags --max-count=1)"
-
-    # Echo start commit and end commit
-    - name: Echo start commit and end commit
-      run: |
-        echo "Start commit: ${{ steps.start_commit.outputs.commit }}"
-        echo "End commit: ${{ steps.end_commit.outputs.commit }}"
-
     - name: Get commit messages between commits
       id: commit-messages
       run: |
         git log --pretty=format:"%s" 7d601a7a0b010dd68f9f0ca19b1ea04af40bee5f..HEAD > commit_messages.txt
-        cat commit_messages.txt > $GITHUB_ENV
+        echo "::set-output name=commit_messages::$(cat commit_messages.txt)"
     
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
