@@ -74,7 +74,7 @@ jobs:
       run: cat commit-messages.txt
 
     - name: New echo
-      run: Echo ${{ steps.commit-messages.outputs.commit_messages }}
+      run: echo ${{ steps.commit-messages.outputs.commit_messages }}
     
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
