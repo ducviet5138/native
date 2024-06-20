@@ -73,6 +73,9 @@ jobs:
     - name: Echo data in commit-messages.txt
       run: cat commit-messages.txt
 
+    - name: Assign to env variable
+      run: echo "body-messages=$(cat commit-messages.txt)" >> $GITHUB_ENV
+
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
       with:
@@ -82,5 +85,5 @@ jobs:
         asset_name: Demo.apk
         tag: 1.0.3
         overwrite: true
-        body: ${{ steps.commit-messages.outputs.body-messages }}
+        body: ${{ env.body-messages }}
         # body: a\nb
