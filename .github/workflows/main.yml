@@ -66,8 +66,11 @@ jobs:
         echo "RELEASE_BODY=$(git log ${{ env.PREV_TAG }}..HEAD --pretty=format:'%h %s' --reverse)" >> $GITHUB_ENV
         echo "::set-output name=body::$(echo -e "${{ env.RELEASE_BODY }}")"
     
-    - name: Echo body message
-      run: echo ${{ env.PREV_TAG }} && echo ${{ env.RELEASE_BODY }} 
+    - name: Echo prev tag
+      run: echo ${{ env.PREV_TAG }}
+
+    - name: Echo release body
+      run: echo ${{ env.RELEASE_BODY }}
 
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
