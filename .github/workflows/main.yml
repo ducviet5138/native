@@ -67,11 +67,21 @@ jobs:
     - name: Get commit messages between releases
       id: commit-messages
       run: |
-        git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s" | awk '{printf "%s\\n", $0}' ORS='' > commit-messages.txt
+        git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s" > commit-messages.txt
         echo "::set-output name=body-messages::$(cat commit-messages.txt)"
 
     - name: Echo data in commit-messages.txt
       run: cat commit-messages.txt
+
+    - name: Read commit messages and use it as a body of new release 
+      id: body-messages
+      shell: bash
+      run: |
+          r=$(commit-messages.txt)                          # <--- Read commit-messages.txt (Provide correct path as per your repo)
+          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
+          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
+          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          echo "BODY=$r" >> $GITHUB_OUTPUT                  # <--- Set environment variable BODY
 
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
@@ -82,4 +92,4 @@ jobs:
         asset_name: Demo.apk
         tag: 1.0.4
         overwrite: true
-        body: "${{ steps.commit-messages.outputs.body-messages }}"
+        body: "${{ steps.body-messages.outputs.BODY }}"
