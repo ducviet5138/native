@@ -101,9 +101,8 @@ jobs:
     - name: Read commit messages and use it as a body of new release 
       id: body-messages
       shell: bash
-      run: |
-          r="Changelogs:%0A"      
-          r+=$(cat commit-messages.txt)                      # <--- Read commit-messages.txt (Provide correct path as per your repo)
+      run: |    
+          r=$(cat commit-messages.txt)                      # <--- Read commit-messages.txt (Provide correct path as per your repo)
           r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
           r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
