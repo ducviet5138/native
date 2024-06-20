@@ -70,7 +70,8 @@ jobs:
         echo -n "\"" > commit-messages.txt
         git log 7d601a7a0b010dd68f9f0ca19b1ea04af40bee5f..HEAD --pretty=format:"%h: %s" | awk '{printf "%s\\n", $0}' ORS='' >> commit-messages.txt
         echo "\"" >> commit-messages.txt
-        
+        echo "::set-output name=body-messages::$(cat commit-messages.txt)"
+
     - name: Echo data in commit-messages.txt
       run: cat commit-messages.txt
 
