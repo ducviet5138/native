@@ -28,6 +28,7 @@ jobs:
       with:
         tag_name: ${{ steps.get-version.outputs.version }}
         release_name: ${{ steps.get-version.outputs.version }}
+      continue-on-error: true
 
   build:
     needs: version
@@ -102,7 +103,7 @@ jobs:
       shell: bash
       run: |
           r=$(cat commit-messages.txt)                      # <--- Read commit-messages.txt (Provide correct path as per your repo)
-          r="Changelogs:\n"                              # Prepend "Changelogs:" with an endline to the content
+          r="Changelogs:\n"                                 # Prepend "Changelogs:" with an endline to the content
           r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
           r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
