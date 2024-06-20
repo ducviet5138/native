@@ -60,15 +60,23 @@ jobs:
     
     # Get lastest commit in previous tag
     - name: Get lastest commit in previous tag
-      id: commit-messages
-      run: |
-        git fetch --tags
-        git log $(git describe --tags --abbrev=0)..HEAD --oneline > commit_messages.txt
-        echo "::set-output name=commit_messages::$(cat commit_messages.txt)"
+      id: start_commit
+      run: echo "::set-output name=commit::$(git rev-list --tags --skip=1 --max-count=1)"
 
-    # Print it to the console
-    - name: Print commit messages
-      run: echo ${{ steps.commit-messages.outputs.commit_messages }}
+    # Get lastest commit in current tag
+    - name: Get lastest commit in current tag
+      id: end_commit
+      run: echo "::set-output name=commit::$(git rev-list --tags --max-count=1)"
+
+    # Echo start commit and end commit
+    - name: Echo start commit and end commit
+      run: |
+        echo "Start commit: ${{ steps.start_commit.outputs.commit }}"
+        echo "End commit: ${{ steps.end_commit.outputs.commit }}"
+
+    # - name: Get commit messages between commits
+    #   uses: tylermilner/commit-messages-between-commits-action@v1
+      
 
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
