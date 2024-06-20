@@ -22,10 +22,6 @@ jobs:
       uses: phips28/gh-action-bump-version@master
       env:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
-      with:
-        target-branch: "main, develop"
-        minor-wording: "develop"
-        major-wording: "main"
     
     - name: Get version from package.json
       id: get-version
