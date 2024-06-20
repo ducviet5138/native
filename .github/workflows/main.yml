@@ -74,10 +74,13 @@ jobs:
         echo "Start commit: ${{ steps.start_commit.outputs.commit }}"
         echo "End commit: ${{ steps.end_commit.outputs.commit }}"
 
-    # - name: Get commit messages between commits
-    #   uses: tylermilner/commit-messages-between-commits-action@v1
-      
-
+    - name: Get commit messages between commits
+      id: commit-messages
+      uses: tylermilner/commit-messages-between-commits-action@v1
+      with:
+        begin-sha: ${{ steps.start_commit.outputs.commit }}
+        end-sha: ${{ steps.end_commit.outputs.commit }}
+    
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
       with:
