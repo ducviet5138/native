@@ -60,14 +60,14 @@ jobs:
 
     - name: Get begin-sha (Last commit in the previous release)
       id: begin-sha
-      run: echo "::set-output name=begin-sha::$(git rev-list --tags --max-count=1)"
+      run: |
+        git fetch --tags 
+        echo "::set-output name=begin-sha::$(git rev-list --tags --max-count=1)"
 
     - name: Get commit messages between releases
       id: commit-messages
       run: |
-        echo -n "\"" >> commit-messages.txt
         git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s" | awk '{printf "%s\\n", $0}' ORS='' >> commit-messages.txt
-        echo -n "\"" >> commit-messages.txt
         echo "::set-output name=body-messages::$(cat commit-messages.txt)"
 
     - name: Echo data in commit-messages.txt
