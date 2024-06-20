@@ -30,6 +30,7 @@ jobs:
         release_name: ${{ steps.get-version.outputs.version }}
 
   build:
+    needs: version
     runs-on: ubuntu-latest
 
     steps:
