@@ -39,14 +39,15 @@ jobs:
         sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
         "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
 
-    - name: Build APK
-      run: ./gradlew assembleRelease
-      working-directory: android
+    # - name: Build APK
+    #   run: ./gradlew assembleRelease
+    #   working-directory: android
 
     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
       with:
-        releaseDirectory: android/app/build/outputs/apk/release
+        # releaseDirectory: android/app/build/outputs/apk/release
+        releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
