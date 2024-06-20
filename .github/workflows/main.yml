@@ -4,16 +4,28 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
 
 jobs:
   version:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
     - name: Access workspace 
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Automated Version Bump
+      uses: phips28/gh-action-bump-version@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+      with:
+        target-branch: "main, develop"
+        minor-wording: "develop"
+        major-wording: "main"
     
     - name: Get version from package.json
       id: get-version
@@ -21,14 +33,14 @@ jobs:
       with:
         path: .
     
-    - name: Bump version in release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
-      with:
-        tag_name: ${{ steps.get-version.outputs.version }}
-        release_name: ${{ steps.get-version.outputs.version }}
-      continue-on-error: true
+    # - name: Bump version in release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+    #   with:
+    #     tag_name: ${{ steps.get-version.outputs.version }}
+    #     release_name: ${{ steps.get-version.outputs.version }}
+    #   continue-on-error: true
 
   build:
     needs: version
