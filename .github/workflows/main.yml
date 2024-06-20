@@ -86,7 +86,7 @@ jobs:
       id: commit-messages
       uses: tylermilner/commit-messages-between-commits-action@v1
       with:
-        begin-sha: 7d601a7a0b010dd68f9f0ca19b1ea04af40bee5f
+        begin-sha: 7d868c58e4cdc14ad69ed8cb56dce4e159479774
     
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
