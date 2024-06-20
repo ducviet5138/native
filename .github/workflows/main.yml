@@ -57,6 +57,14 @@ jobs:
       env:
           # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
+
+    # Print 1
+    - name: Print 1
+      run: git rev-list --tags --skip=1 --max-count=1
+
+    # Print 2
+    - name: Print 2
+      run: git rev-list --tags --max-count=1
     
     # Get lastest commit in previous tag
     - name: Get lastest commit in previous tag
