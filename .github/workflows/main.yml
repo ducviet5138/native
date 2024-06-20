@@ -30,23 +30,24 @@ jobs:
     - name: Install dependencies without updating lockfile
       run: pnpm i --frozen-lockfile
 
-    - name: Generate 'android' folder
-      run: pnpm expo run:android
-      continue-on-error: true
+    # - name: Generate 'android' folder
+    #   run: pnpm expo run:android
+    #   continue-on-error: true
 
-    - name: Set Gradle version to 8.8
-      run: |
-        sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
-        "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
+    # - name: Set Gradle version to 8.8
+    #   run: |
+    #     sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
+    #     "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
 
-    - name: Build APK
-      run: ./gradlew assembleRelease
-      working-directory: android
+    # - name: Build APK
+    #   run: ./gradlew assembleRelease
+    #   working-directory: android
 
     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
       with:
-        releaseDirectory: android/app/build/outputs/apk/release
+        # releaseDirectory: android/app/build/outputs/apk/release
+        releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -64,13 +65,9 @@ jobs:
       run: |
         echo "RELEASE_BODY=$(git log ${{ env.PREV_TAG }}..HEAD --pretty=format:'%h %s' --reverse)" >> $GITHUB_ENV
         echo "::set-output name=body::$(echo -e "${{ env.RELEASE_BODY }}")"
-        echo "Release Body: ${{ env.RELEASE_BODY }}"
-
-    - name: Tag version commit
-      uses: christophebedard/tag-version-commit@v1
-      with: 
-        token: ${{ secrets.SECRET_TOKEN }}
-        version_tag_prefix: 'v'
+    
+    - name: Echo body message
+      run: echo ${{ env.PREV_TAG }} && echo ${{ env.RELEASE_BODY }} 
 
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
@@ -78,6 +75,6 @@ jobs:
         repo_token: ${{ secrets.SECRET_TOKEN }}
         file: android/app/build/outputs/apk/release/app-release-signed.apk
         asset_name: Demo.apk
-        # tag: 1.0.0
+        tag: 1.0.1
         overwrite: true
         body: ${{ env.RELEASE_BODY }}
