@@ -82,4 +82,4 @@ jobs:
         asset_name: Demo.apk
         tag: 1.0.4
         overwrite: true
-        body: "\"${{ steps.commit-messages.outputs.body-messages }}\""
+        body: "${{ steps.commit-messages.outputs.body-messages }}"
