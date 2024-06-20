@@ -85,7 +85,7 @@ jobs:
     - name: Get commit messages between commits
       id: commit-messages
       run: |
-        git log --pretty=format:"%s" ${{ steps.start_commit.outputs.commit }}..${{ steps.end_commit.outputs.commit }} > commit_messages.txt
+        git log --pretty=format:"%s" 7d601a7a0b010dd68f9f0ca19b1ea04af40bee5f..HEAD > commit_messages.txt
         echo "::set-output name=commit_messages::$(cat commit_messages.txt)"
     
     - name: Upload APK
