@@ -65,7 +65,9 @@ jobs:
     - name: Get commit messages between releases
       id: commit-messages
       run: |
+        echo -n "\"" > commit-messages.txt
         git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s" | awk '{printf "%s\\n", $0}' ORS='' >> commit-messages.txt
+        echo -n "\"" > commit-messages.txt
         echo "::set-output name=body-messages::$(cat commit-messages.txt)"
 
     - name: Echo data in commit-messages.txt
