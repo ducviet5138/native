@@ -84,10 +84,9 @@ jobs:
 
     - name: Get commit messages between commits
       id: commit-messages
-      uses: tylermilner/commit-messages-between-commits-action@v1
-      with:
-        begin-sha: 7d868c58e4cdc14ad69ed8cb56dce4e159479774
-        end-sha: 471f5f744d68c46506e59f84ba05ffdb5da4d45b
+      run: |
+        git log --pretty=format:"%s" ${{ steps.start_commit.outputs.commit }}..${{ steps.end_commit.outputs.commit }} > commit_messages.txt
+        echo "::set-output name=commit_messages::$(cat commit_messages.txt)"
     
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
