@@ -67,8 +67,10 @@ jobs:
     - name: Get commit messages between releases
       id: commit-messages
       run: |
-        git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s \n" > commit-messages.txt
-        echo "::set-output name=body-messages::$(cat commit-messages.txt)"
+        # Use printf to format the output, replacing newlines with \n and enclosing in double quotes
+        printf "\"%s\"" "$(git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:'%h: %s' | sed ':a;N;$!ba;s/\n/\\n/g')"
+        # Set the formatted output as a step output
+        echo "::set-output name=body-messages::$(printf "\"%s\"" "$(git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:'%h: %s' | sed ':a;N;$!ba;s/\n/\\n/g'))"
 
     - name: Echo data in commit-messages.txt
       run: cat commit-messages.txt
