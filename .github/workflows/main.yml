@@ -73,7 +73,8 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.SECRET_TOKEN }}
-        file: android/app/build/outputs/apk/release/app-release-signed.apk
+        # file: android/app/build/outputs/apk/release/app-release-signed.apk
+        file: app-release-signed.apk
         asset_name: Demo.apk
         tag: 1.0.1
         overwrite: true
