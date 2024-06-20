@@ -56,24 +56,13 @@ jobs:
           # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
     
-    - name: Find Previous Tag
-      id: prev_tag
-      run: echo "PREV_TAG=$(git describe --tags --abbrev=0 HEAD^)" >> $GITHUB_ENV
-
-    - name: Generate Release Body
-      id: generate_body
-      run: |
-        echo "RELEASE_BODY=$(git log ${{ env.PREV_TAG }}..HEAD --pretty=format:'%h %s' --reverse)" >> $GITHUB_ENV
-        echo "::set-output name=body::$(echo -e "${{ env.RELEASE_BODY }}")"
+    # Get commit as body of release from the lastest tag
+    - name: Get commit message
+      id: get_commit
+      run: echo "::set-output name=body::$(git log $(git describe --tags --abbrev=0)..HEAD --oneline --no-decorate --no-color)"
     
-    - name: Echo log
-      run: git log ${{ env.PREV_TAG }}..HEAD --pretty=format:'%h %s' --reverse
-
-    - name: Echo prev tag
-      run: echo ${{ env.PREV_TAG }}
-
-    - name: Echo release body
-      run: echo ${{ env.RELEASE_BODY }}
+    - name: Echo commit message
+      run: echo ${{ steps.get_commit.outputs.body }}
 
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
@@ -84,4 +73,4 @@ jobs:
         asset_name: Demo.apk
         tag: 1.0.1
         overwrite: true
-        body: ${{ env.RELEASE_BODY }}
+        body: ${{ steps.get_commit.outputs.body }}
