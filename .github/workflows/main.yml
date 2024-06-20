@@ -79,7 +79,6 @@ jobs:
       uses: tylermilner/commit-messages-between-commits-action@v1
       with:
         begin-sha: ${{ steps.start_commit.outputs.commit }}
-        end-sha: ${{ steps.end_commit.outputs.commit }}
     
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
