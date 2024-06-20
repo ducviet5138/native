@@ -58,15 +58,17 @@ jobs:
           # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
     
-    # Get commit messages as release notes from previous tag
-    - name: 📋 Get Changes between Tags
-      id: changes
-      uses: simbo/changes-between-tags-action@v1
-
-    - name: 📣 Output Data
+    # Get lastest commit in previous tag
+    - name: Get lastest commit in previous tag
+      id: commit-messages
       run: |
-        echo "tag: ${{ steps.changes.outputs.tag }}"
-        echo "changes: ${{ steps.changes.outputs.changes }}"
+        git fetch --tags
+        git log $(git describe --tags --abbrev=0)..HEAD --oneline > commit_messages.txt
+        echo "::set-output name=commit_messages::$(cat commit_messages.txt)"
+
+    # Print it to the console
+    - name: Print commit messages
+      run: echo ${{ steps.commit-messages.outputs.commit_messages }}
 
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
