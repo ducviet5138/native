@@ -85,5 +85,5 @@ jobs:
         asset_name: Demo.apk
         tag: 1.0.4
         overwrite: true
-        body: ${{ env.body-messages }}
-        # body: a\nb
+        # body: ${{ env.body-messages }}
+        body: "459c108: Pump ver to 1.0.4\na85c2f2: Use body msg\nde12381: Append not replace\nfc91e9f: Fix output\ncd6a006: Merge branch 'main' of https://github.com/ducviet5138/native\n2f8a30d: Add ""\n3dac50d: Update main.yml\n5b97756: Skip unused package\n0154528: Update main.yml\n80afdaf: Update main.yml\n783b83f: Set output\nd9234e8: Fix msg\n1e3e6fb: Fix msg\nf2da379: Fix msg\ne583706: Merge branch 'main' of https://github.com/ducviet5138/native\n596506f: Fix\n5645d27: Update main.yml\n69e383d: with \n\n46d9798: Without \n\n1e625ed: Hahahha\nb3ca209: New\na4d0b3a: Fix\n88242a7: Moas\n51564bf: Echo\n00dab54: Change method\n55aa803: Test\na32dbd7: Add depth\n652f376: :)))))))\nd8d6bce: cat to GITHUB_ENV.body_message\n7a979e6: Alo\n16efeee: Fix\nf112cf5: Đại đi\n471f5f7: ....\nc3a517a: Hard text of begin-sha\n853701d: Print\n66a9f99: Rm end-sha\n3325b42: Hmmm\ne3aff70: Qua mot\n"
