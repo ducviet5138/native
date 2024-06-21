@@ -18,13 +18,22 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Automated Version Bump
+    - name: "Automated Version Bump - Minor"
       uses: phips28/gh-action-bump-version@master
       env:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
       with:
-        skip-commit:  'true'
-        skip-tag: 'true'
+        version-type: 'minor'
+        target-branch: 'develop'
+      continue-on-error: true # Continue even if the version bump fails
+
+    - name: "Automated Version Bump - Major"
+      uses: phips28/gh-action-bump-version@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+      with:
+        version-type: 'major'
+        target-branch: 'main'
       continue-on-error: true # Continue even if the version bump fails
     
     # - name: Get version from package.json
