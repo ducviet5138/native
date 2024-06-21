@@ -63,7 +63,7 @@ jobs:
         fetch-depth: 0
 
     - name: Pull the latest changes
-      run: git pull origin ${{ github.ref }}
+      run: git pull
 
     # - name: Set up Java SDK
     #   uses: actions/setup-java@v4
