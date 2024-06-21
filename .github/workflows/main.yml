@@ -1,7 +1,7 @@
 name: Release APK
 
 on: 
-  push:
+  pull_request:
     branches:
       - 'main'
       - 'develop'
@@ -17,6 +17,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
 
     - name: "Automated Version Bump - Minor"
       uses: phips28/gh-action-bump-version@master
