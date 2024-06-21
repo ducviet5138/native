@@ -1,59 +1,15 @@
-name: Release APK
+name: Build and release APK
 
 on: 
-  pull_request:
-    branches:
-      - 'main'
-      - 'develop'
-
+  workflow_run:
+    workflows:
+      - Bump major version
+      - Bump minor version
+    types:
+      - completed
+      
 jobs:
-  version:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    
-    steps:
-    - name: Access workspace 
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-
-    - name: "Automated Version Bump - Minor"
-      uses: phips28/gh-action-bump-version@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
-      with:
-        version-type: 'minor'
-        target-branch: 'develop'
-      continue-on-error: true # Continue even if the version bump fails
-
-    - name: "Automated Version Bump - Major"
-      uses: phips28/gh-action-bump-version@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
-      with:
-        version-type: 'major'
-        target-branch: 'main'
-      continue-on-error: true # Continue even if the version bump fails
-    
-    # - name: Get version from package.json
-    #   id: get-version
-    #   uses: beaconbrigade/package-json-version@v0.3
-    #   with:
-    #     path: .
-    
-    # - name: Bump version in release
-    #   uses: actions/create-release@v1
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
-    #   with:
-    #     tag_name: ${{ steps.get-version.outputs.version }}
-    #     release_name: ${{ steps.get-version.outputs.version }}
-    #   continue-on-error: true
-
   build:
-    needs: version
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +19,7 @@ jobs:
         fetch-depth: 0
 
     - name: Pull the latest changes
-      run: git pull
+      run: git pull origin ${{ github.ref }}
 
     # - name: Set up Java SDK
     #   uses: actions/setup-java@v4

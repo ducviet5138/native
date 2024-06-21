@@ -1,0 +1,28 @@
+name: Bump minor version
+
+on: 
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  bump-minor-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Access workspace 
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Automated Version Bump
+      uses: phips28/gh-action-bump-version@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+      with:
+        version-type: 'minor'
+      continue-on-error: true # Continue even if the version bump fails
+    
+   
