@@ -24,6 +24,7 @@ jobs:
       with:
         version-type: 'major'
         skip-push: 'true'
+        commit-message: 'Bump version to {{version}}'
       continue-on-error: true # Continue even if the version bump fails
 
     - name: Get version from package.json
