@@ -35,8 +35,6 @@ jobs:
     - name: Pump version in app.json
       run: |
         sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
-        git config --global user.email "ducviet5138@gmail.com"
-        git config --global user.name "ducviet5138"
         git add .
         git commit -m "Bump version to ${{ steps.get-version.outputs.version }}"
         git push
