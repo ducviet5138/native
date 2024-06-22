@@ -24,7 +24,7 @@ jobs:
       with:
         version-type: 'major'
         skip-push: 'true'
-        commit-message: 'Bump version to {{version}}'
+        commit-message: 'Bump version to {{version}} - package.json'
       continue-on-error: true # Continue even if the version bump fails
 
     - name: Get version from package.json
@@ -37,7 +37,7 @@ jobs:
       run: |
         sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
         git add .
-        git commit -m "Bump version to ${{ steps.get-version.outputs.version }}"
+        git commit -m "Bump version to ${{ steps.get-version.outputs.version }} - app.json"
         git push
     
    
