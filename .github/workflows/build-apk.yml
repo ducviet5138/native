@@ -94,13 +94,6 @@ jobs:
       with:
         path: .
 
-    - name: Pump version in app.json
-      run: |
-        sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
-        git add .
-        git commit -m "Bump version to ${{ steps.get-version.outputs.version }}"
-        git push
-
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
       with:
