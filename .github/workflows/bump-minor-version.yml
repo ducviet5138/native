@@ -23,6 +23,18 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
       with:
         version-type: 'minor'
+        skip-push: 'true'
       continue-on-error: true # Continue even if the version bump fails
     
-   
+    - name: Get version from package.json
+      id: get-version
+      uses: beaconbrigade/package-json-version@v0.3
+      with:
+        path: .
+
+    - name: Pump version in app.json
+      run: |
+        sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
+        git add .
+        git commit -m "Bump version to ${{ steps.get-version.outputs.version }}"
+        git push
