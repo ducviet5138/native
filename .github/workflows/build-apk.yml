@@ -94,6 +94,10 @@ jobs:
       with:
         path: .
 
+    - name: Pump version in app.json
+      run: |
+        sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
+
     - name: Upload APK
       uses: svenstaro/upload-release-action@v2
       with:
