@@ -23,7 +23,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
       with:
         version-type: 'minor'
-        skip-push: 'true'
       continue-on-error: true # Continue even if the version bump fails
     
    
