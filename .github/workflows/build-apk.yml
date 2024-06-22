@@ -21,47 +21,47 @@ jobs:
     - name: Pull the latest changes
       run: git pull origin ${{ github.ref }}
 
-    # - name: Set up Java SDK
-    #   uses: actions/setup-java@v4
-    #   with:
-    #     distribution: 'temurin'
-    #     java-version: '22'
+    - name: Set up Java SDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '22'
 
-    # - name: Set up Android SDK
-    #   uses: android-actions/setup-android@v3
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
       
-    # - name: Set up pnpm
-    #   uses: pnpm/action-setup@v4
-    #   with: 
-    #     version: 'latest'
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v4
+      with: 
+        version: 'latest'
 
-    # - name: Install dependencies without updating lockfile
-    #   run: pnpm i --frozen-lockfile
+    - name: Install dependencies without updating lockfile
+      run: pnpm i --frozen-lockfile
 
-    # - name: Generate 'android' folder
-    #   run: pnpm expo run:android
-    #   continue-on-error: true
+    - name: Generate 'android' folder
+      run: pnpm expo run:android
+      continue-on-error: true
 
-    # - name: Set Gradle version to 8.8
-    #   run: |
-    #     sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
-    #     "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
+    - name: Set Gradle version to 8.8
+      run: |
+        sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
+        "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
 
-    # - name: Build APK
-    #   run: ./gradlew assembleRelease
-    #   working-directory: android
+    - name: Build APK
+      run: ./gradlew assembleRelease
+      working-directory: android
 
-    # - name: Sign APK
-    #   uses: r0adkll/sign-android-release@v1
-    #   with:
-    #     releaseDirectory: android/app/build/outputs/apk/release
-    #     signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
-    #     alias: ${{ secrets.ALIAS }}
-    #     keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-    #     keyPassword: ${{ secrets.KEY_PASSWORD }}
-    #   env:
-    #       # override default build-tools version (33.0.0) -- optional
-    #       BUILD_TOOLS_VERSION: "34.0.0"
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: android/app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+          # override default build-tools version (33.0.0) -- optional
+          BUILD_TOOLS_VERSION: "34.0.0"
 
     - name: Get begin-sha (Last commit in the previous release)
       id: begin-sha
@@ -98,8 +98,8 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.SECRET_TOKEN }}
-        # file: android/app/build/outputs/apk/release/app-release-signed.apk
-        file: ./app-release.apk
+        file: android/app/build/outputs/apk/release/app-release-signed.apk
+        # file: ./app-release.apk
         asset_name: Demo.apk
         tag: ${{ steps.get-version.outputs.version }}
         overwrite: true
