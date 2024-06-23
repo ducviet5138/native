@@ -3,8 +3,6 @@ name: Build and release APK
 on: 
   workflow_run:
     workflows:
-      - Bump major version
-      - Bump minor version
       - Bump version
     types:
       - completed
