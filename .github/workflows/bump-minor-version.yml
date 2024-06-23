@@ -1,42 +1,41 @@
-name: Bump minor version
+# name: Bump minor version
 
-on: 
-  push:
-    branches:
-      - 'develop'
+# on: 
+#   push:
+#     branches:
+#       - 'develop'
 
-jobs:
-  bump-minor-version:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+# jobs:
+#   bump-minor-version:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
     
-    steps:
-    - name: Access workspace 
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+#     steps:
+#     - name: Access workspace 
+#       uses: actions/checkout@v4
+#       with:
+#         fetch-depth: 0
 
-    - name: Automated Version Bump
-      uses: phips28/gh-action-bump-version@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
-      with:
-        version-type: 'minor'
-        skip-push: 'true'
-        skip-commit: 'true'
-        # commit-message: 'Bump version to {{version}} - package.json'
-      continue-on-error: true # Continue even if the version bump fails
+#     - name: Automated Version Bump
+#       uses: phips28/gh-action-bump-version@master
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+#       with:
+#         version-type: 'minor'
+#         skip-push: 'true'
+#         skip-commit: 'true'
+#       continue-on-error: true # Continue even if the version bump fails
     
-    - name: Get version from package.json
-      id: get-version
-      uses: beaconbrigade/package-json-version@v0.3
-      with:
-        path: .
+#     - name: Get version from package.json
+#       id: get-version
+#       uses: beaconbrigade/package-json-version@v0.3
+#       with:
+#         path: .
 
-    - name: Pump version in app.json
-      run: |
-        sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
-        git add .
-        git commit -m "Bump version to ${{ steps.get-version.outputs.version }}"
-        git push
+#     - name: Pump version in app.json
+#       run: |
+#         sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.get-version.outputs.version }}\"/" app.json
+#         git add .
+#         git commit -m "Bump version to ${{ steps.get-version.outputs.version }}"
+#         git push

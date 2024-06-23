@@ -5,6 +5,7 @@ on:
     workflows:
       - Bump major version
       - Bump minor version
+      - Bump version
     types:
       - completed
       
