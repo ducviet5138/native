@@ -19,15 +19,8 @@ jobs:
     - name: Pull the latest changes
       run: git pull origin ${{ github.ref }}
 
-    - name: Set up Java SDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '22'
-        cache: 'gradle'
-
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
+    # - name: Set up Android SDK
+    #   uses: android-actions/setup-android@v3
       
     - name: Set up pnpm
       uses: pnpm/action-setup@v4
@@ -45,6 +38,13 @@ jobs:
       run: |
         sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-all.zip|' \
         "$PWD/android/gradle/wrapper/gradle-wrapper.properties"
+
+    - name: Set up Java SDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '22'
+        cache: 'gradle'
 
     - name: Build APK
       run: ./gradlew assembleRelease
