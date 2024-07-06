@@ -43,6 +43,9 @@ jobs:
         java-version: '22'
         cache: 'gradle'
 
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Build APK
       run: ./gradlew assembleRelease
       working-directory: android
