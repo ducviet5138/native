@@ -18,9 +18,6 @@ jobs:
 
     - name: Pull the latest changes
       run: git pull origin ${{ github.ref }}
-
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
       
     - name: Set up pnpm
       uses: pnpm/action-setup@v4
