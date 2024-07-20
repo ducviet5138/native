@@ -39,7 +39,7 @@ jobs:
         gradle-version: 8.8
 
     - name: Build APK
-      run: gradlew build
+      run: ./gradlew build
       working-directory: android
 
     - name: Sign APK
