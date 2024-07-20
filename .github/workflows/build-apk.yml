@@ -34,7 +34,7 @@ jobs:
         java-version: '22'
 
     - name: Set up gradle
-      uses: eskatos/gradle-command-action@v2
+      uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: 8.8
 
