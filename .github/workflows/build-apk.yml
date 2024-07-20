@@ -24,9 +24,8 @@ jobs:
     - name: Install dependencies without updating lockfile
       run: pnpm i --frozen-lockfile
 
-    - name: Generate 'android' folder
-      run: pnpm expo run:android
-      continue-on-error: true
+    - name: Generate 'android' and 'ios' folder
+      run: pnpm expo prebuild
 
     - name: Set up Java SDK
       uses: actions/setup-java@v4
@@ -37,28 +36,24 @@ jobs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Set up gradle
+    - name: Set up gradle and build APK
       uses: eskatos/gradle-command-action@v2
       with:
         arguments: assembleRelease
         gradle-version: 8.8
         build-root-directory: android
 
-    # - name: Build APK
-    #   run: ./gradlew assembleRelease
-    #   working-directory: android
-
-    # - name: Sign APK
-    #   uses: r0adkll/sign-android-release@v1
-    #   with:
-    #     releaseDirectory: android/app/build/outputs/apk/release
-    #     signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
-    #     alias: ${{ secrets.ALIAS }}
-    #     keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-    #     keyPassword: ${{ secrets.KEY_PASSWORD }}
-    #   env:
-    #       # override default build-tools version (33.0.0) -- optional
-    #       BUILD_TOOLS_VERSION: "34.0.0"
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: android/app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+          # override default build-tools version (33.0.0) -- optional
+          BUILD_TOOLS_VERSION: "34.0.0"
 
     - name: Get begin-sha (Last commit in the previous release)
       id: begin-sha
@@ -71,9 +66,6 @@ jobs:
       run: |
         git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s" > commit-messages.txt
         echo "::set-output name=body-messages::$(cat commit-messages.txt)"
-
-    # - name: Echo data in commit-messages.txt
-    #   run: cat commit-messages.txt
 
     - name: Read commit messages and use it as a body of new release 
       id: body-messages
