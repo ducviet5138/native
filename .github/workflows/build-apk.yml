@@ -42,45 +42,31 @@ jobs:
         distribution: 'temurin'
         java-version: '22'
         cache: 'gradle'
-    
-    # Use cache to impreove performance
-    - name: Cache Gradle dependencies and wrapper
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: Cache Android build cache (optional)
-      uses: actions/cache@v2
-      with:
-        path: |
-          ./.gradle/caches/build-cache-1
-        key: ${{ runner.os }}-build-cache-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-build-cache-
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Build APK
-      run: ./gradlew assembleRelease
-      working-directory: android
-
-    - name: Sign APK
-      uses: r0adkll/sign-android-release@v1
+    - name: Set up gradle
+      uses: eskatos/gradle-command-action@v2
       with:
-        releaseDirectory: android/app/build/outputs/apk/release
-        signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
-        alias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-      env:
-          # override default build-tools version (33.0.0) -- optional
-          BUILD_TOOLS_VERSION: "34.0.0"
+        arguments: assembleRelease
+        gradle-version: 8.8
+
+    # - name: Build APK
+    #   run: ./gradlew assembleRelease
+    #   working-directory: android
+
+    # - name: Sign APK
+    #   uses: r0adkll/sign-android-release@v1
+    #   with:
+    #     releaseDirectory: android/app/build/outputs/apk/release
+    #     signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+    #     alias: ${{ secrets.ALIAS }}
+    #     keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+    #     keyPassword: ${{ secrets.KEY_PASSWORD }}
+    #   env:
+    #       # override default build-tools version (33.0.0) -- optional
+    #       BUILD_TOOLS_VERSION: "34.0.0"
 
     - name: Get begin-sha (Last commit in the previous release)
       id: begin-sha
