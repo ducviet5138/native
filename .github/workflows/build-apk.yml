@@ -94,8 +94,8 @@ jobs:
         git log ${{ steps.begin-sha.outputs.begin-sha }}..HEAD --pretty=format:"%h: %s" > commit-messages.txt
         echo "::set-output name=body-messages::$(cat commit-messages.txt)"
 
-    - name: Echo data in commit-messages.txt
-      run: cat commit-messages.txt
+    # - name: Echo data in commit-messages.txt
+    #   run: cat commit-messages.txt
 
     - name: Read commit messages and use it as a body of new release 
       id: body-messages
