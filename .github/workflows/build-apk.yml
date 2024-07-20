@@ -51,6 +51,7 @@ jobs:
       with:
         arguments: assembleRelease
         gradle-version: 8.8
+        build-root-directory: android
 
     # - name: Build APK
     #   run: ./gradlew assembleRelease
