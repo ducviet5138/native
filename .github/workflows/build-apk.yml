@@ -33,14 +33,12 @@ jobs:
         distribution: 'temurin'
         java-version: '22'
 
-    - name: Set up gradle
+    - name: Set up gradle and build APK
       uses: gradle/actions/setup-gradle@v3
       with:
+        arguments: build
         gradle-version: 8.8
-
-    - name: Build APK
-      run: ./gradlew build
-      working-directory: android
+        build-root-directory: android
 
     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
